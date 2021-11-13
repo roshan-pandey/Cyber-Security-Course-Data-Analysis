@@ -5,11 +5,11 @@ date: "11/11/2021"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir= normalizePath('..'))
 ```
-```{r ProjectTemplate, include=FALSE}
+```{r ProjectTemplate, include = FALSE}
 library(ProjectTemplate)
 load.project()
 ```
