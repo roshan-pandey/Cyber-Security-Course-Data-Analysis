@@ -1,5 +1,4 @@
-install.packages('sjmisc')
-library(sjmisc)
+# library(sjmisc)
 
 
 # # Reading all the files and merging similar files...
@@ -34,11 +33,11 @@ library(sjmisc)
 
 
 # writing the data frame to csv files...
-write.csv(archetype_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/archetype.csv", row.names = FALSE)
-write.csv(enrolments_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/enrolments.csv", row.names = FALSE)
-write.csv(leaving_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/leaving.csv", row.names = FALSE)
-write.csv(question_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/question.csv", row.names = FALSE)
-write.csv(step_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/step.csv", row.names = FALSE)
-write.csv(weekly_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/weekly.csv", row.names = FALSE)
-write.csv(video_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/video.csv", row.names = FALSE)
-write.csv(team_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/team.csv", row.names = FALSE)
+# write.csv(archetype_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/archetype.csv", row.names = FALSE)
+# write.csv(enrolments_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/enrolments.csv", row.names = FALSE)
+# write.csv(leaving_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/leaving.csv", row.names = FALSE)
+# write.csv(question_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/question.csv", row.names = FALSE)
+# write.csv(step_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/step.csv", row.names = FALSE)
+# write.csv(weekly_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/weekly.csv", row.names = FALSE)
+# write.csv(video_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/video.csv", row.names = FALSE)
+# write.csv(team_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/team.csv", row.names = FALSE)
