@@ -19,6 +19,12 @@ Online learning platforms are getting popularity day by day and hence, generatin
 
 ### Which device is being mostly used to access the content?
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the data"}
+```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png")
 ```
+From Figure 1 we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further more for desktop first and then focus can be shifted to other devices like mobile and tablets etc.
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
+knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png")
+```
+Figure 2 shows although mobile phones are being significantly less used as compared to desktops, they are increasing with iterations. So, platform and course content optimization for mobile phone should also be given equal importance.
