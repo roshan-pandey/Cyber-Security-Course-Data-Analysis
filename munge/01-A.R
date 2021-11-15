@@ -1,3 +1,7 @@
+install.packages('sjmisc')
+library(sjmisc)
+
+
 # # Reading all the files and merging similar files...
 # filenames <- list.files("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/raw_data", pattern="*.csv", full.names=TRUE)
 # 
@@ -38,6 +42,3 @@ write.csv(step_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-
 write.csv(weekly_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/weekly.csv", row.names = FALSE)
 write.csv(video_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/video.csv", row.names = FALSE)
 write.csv(team_df,"C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/data_v1/team.csv", row.names = FALSE)
-
-
-# # Joining data based on learners ID for each iteration of the course...
