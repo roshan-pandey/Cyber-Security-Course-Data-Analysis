@@ -17,14 +17,36 @@ load.project()
 # Introduction
 Online learning platforms are getting popularity day by day and hence, generating tons of data. This data can be used to help the course or the platform to grow and gain more traction by improving the course even further. So, in this report we will try to answer questions like, which device learners use more often to access the content, from which region more learners are taking up the course, over the various iterations of the course, number of enrolled learners are increasing or decreasing.
 
+# Objective
+There are mainly two objectives:
+
+1. Target right audience.
+2. Course Improvement.
+
+#### Target right audience:
+> We want to know from which **location** mostly people are enrolling for the course, what are their employment status and background, their age range.
+
+#### Course Improvement:
+>  Accessing the content should be devices(Desktop, Mobile Phone, Tablet) friendly.
+
+### From which country most learners are enrolling?
+From fig 1, we can see that mostly learners are enrolled from the UK, India, and USA and there are considerable number of people from regions like Australia, Saudi Arabia, Nigeria, Mexico, and Russia. So, based on number of people from various locations advertisement can be optimized. For example, rather than advertising the course or the platform with same intensity in all the regions, importance can be given to regions like the UK and India. This way cost of investment in advertising can be reduced and profits can be increased and that cost can also be used for reinvesting in the course or platform to improve it even further.  
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Region from where most learners are enrolling"}
+knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png")
+```
+
 ### Which device is being mostly used to access the content?
+
+From Figure 1 we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further more for desktop first and then focus can be shifted to other devices like mobile and tablets etc.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png")
 ```
-From Figure 1 we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further more for desktop first and then focus can be shifted to other devices like mobile and tablets etc.
+
+
+Figure 2 shows although mobile phones are being significantly less used as compared to desktops, they are increasing with iterations. So, platform and course content optimization for mobile phone should also be given equal importance.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png")
 ```
-Figure 2 shows although mobile phones are being significantly less used as compared to desktops, they are increasing with iterations. So, platform and course content optimization for mobile phone should also be given equal importance.
