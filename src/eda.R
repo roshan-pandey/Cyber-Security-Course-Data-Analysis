@@ -1,17 +1,53 @@
+# setwd('C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/')
+# print("-------------------- PERFORMING EDA ----------------------------------")
 # library('ProjectTemplate')
 # load.project()
 
 # Selecting video stats data from all the iterations of the course...
 # video_df = get(project.info$cache[7])
 
+world <- map_data("world")
+# views_mean = colMeans(video[,c(22:27)])
+# col_names = c('Europe', 'Oceania', 'Asia', 'NA', 'SA', 'Africa')
+# long = c(20, 150, -100, 80, -60, 15)
+# lat = c(50, -25, 40, 35, -15, 15)
+# continent = data.frame(region = col_names, views = views_mean, lat = lat, long = long, stringsAsFactors = F)
+# # continent = inner_join(world, continent, by = "region")
+
+
+# Reference: https://stackoverflow.com/questions/28078431/how-to-create-a-world-heat-map-in-r-on-continent-level
+
+url = "https://gist.githubusercontent.com/hrbrmstr/91ea5cc9474286c72838/raw/f3fde312c9b816dff3994f39f2bcda03209eff8f/continents.json"
+stop_for_status(GET(url, write_disk("continents.json")))
+continents = readOGR("continents.json")
+continents_map = fortify(continents, region="CONTINENT")
+
+cont_data = read.table(text="id,  value
+Europe,  59.185692
+Australia, 4.355385
+Asia,  15.287538
+North America, 10.400154
+South America, 2.140462
+Africa,  7.450000
+Antarctica, 0", header=TRUE, stringsAsFactors=FALSE, sep = ",")
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png', width = 1920, height = 1080)
+ggplot()+
+  geom_map(data = continents_map, map = continents_map, aes(x=long, y = lat, map_id = id), color = "gray")+
+  geom_map(data = cont_data, map = continents_map, aes(map_id = id, fill = value), color = "gray")+
+  scale_fill_distiller("Percentage Views")+
+  coord_equal()+
+  labs(x=NULL, y=NULL)
+dev.off()
+#####################################################################################################################################
 # People from which region...
 colnames(alpha2lat)[2] = "detected_country"
-with_coordinates = merge(x=enrolments,y=alpha2lat[,c(2,5,6)],by="detected_country", all.x=TRUE)
+alpha2lat$detected_country = trimws(alpha2lat$detected_country)
+with_coordinates = merge(x = enrolments, y = alpha2lat[,c(2,5,6)], by = "detected_country", all.x = TRUE)
 colnames(with_coordinates)[14] = "lat"
 colnames(with_coordinates)[15] = "long"
-world <- map_data("world")
 without_na = with_coordinates[!is.na(with_coordinates$long),]
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png', width = 1920, height = 1080)
 ggplot() +
   geom_map(data = world, map = world, aes(long, lat, map_id = region), color = "black", fill = "lightgray")+
   stat_density2d(aes(x = long, y = lat, fill = ..level.., alpha = 0.25), bins = 30, data = without_na, geom = "polygon")
@@ -31,7 +67,7 @@ device_df = melt(device_df, id.vars = c('title'))
 colnames(device_df) <- c('title', 'Device', 'Percentage_Watch')
 
 # saving the plot to the graphs/ directory...
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png', width = 1920, height = 1080)
 ggplot(device_df, aes(x = title, y = Percentage_Watch, fill = Device))+
   geom_bar(stat='identity', position = position_dodge())+
   theme(axis.text.x = element_text(angle=90))
@@ -71,7 +107,7 @@ long_mean_df = melt(mean_df)
 colnames(long_mean_df) = c('Iteration', 'Device', 'Watch_Time')
 
 # saving the plot to the graphs/ directory...
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png', width = 1920, height = 1080)
 ggplot()+
   geom_bar(long_mean_df, mapping = aes(x = Iteration, y = Watch_Time, fill = Device), stat='identity', position = position_dodge())+
   geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = mobile_device_percentage, group = 1))+
