@@ -14,12 +14,41 @@ world <- map_data("world")
 # continent = data.frame(region = col_names, views = views_mean, lat = lat, long = long, stringsAsFactors = F)
 # # continent = inner_join(world, continent, by = "region")
 
+######################################################################################################################################
+enrolment_i1 = cyber.security.1_enrolments
+enrolment_i2 = cyber.security.2_enrolments
+enrolment_i3 = cyber.security.3_enrolments
+enrolment_i4 = cyber.security.4_enrolments
+enrolment_i5 = cyber.security.5_enrolments
+enrolment_i6 = cyber.security.6_enrolments
+enrolment_i7 = cyber.security.7_enrolments
+
+learners_in_batch_1 = dim(enrolment_i1)
+learners_in_batch_2 = dim(enrolment_i2)
+learners_in_batch_3 = dim(enrolment_i3)
+learners_in_batch_4 = dim(enrolment_i4)
+learners_in_batch_5 = dim(enrolment_i5)
+learners_in_batch_6 = dim(enrolment_i6)
+learners_in_batch_7 = dim(enrolment_i7)
+
+dim_df = as.data.frame(rbind(learners_in_batch_1, learners_in_batch_2, learners_in_batch_3, learners_in_batch_4, learners_in_batch_5, learners_in_batch_6, learners_in_batch_7))
+colnames(dim_df) = c("Number_of_learners_enrolled", "Number_of_features")
+dim_df$batch = rownames(dim_df)
+row.names(dim_df) <- NULL
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png', width = 1920, height = 1080)
+ggplot()+
+  geom_line(data = dim_df, mapping = aes(x = batch, y = Number_of_learners_enrolled, group = 1), col = "blue")+
+  geom_point(data = dim_df, mapping = aes(x = batch, y = Number_of_learners_enrolled, group = 1), col = "red", size = 2)+
+  theme(axis.text.x = element_text(angle=90))
+dev.off()
+#######################################################################################################################################
 
 # Reference: https://stackoverflow.com/questions/28078431/how-to-create-a-world-heat-map-in-r-on-continent-level
 
 url = "https://gist.githubusercontent.com/hrbrmstr/91ea5cc9474286c72838/raw/f3fde312c9b816dff3994f39f2bcda03209eff8f/continents.json"
-stop_for_status(GET(url, write_disk("continents.json")))
-continents = readOGR("continents.json")
+stop_for_status(GET(url, write_disk("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/continents.json", overwrite = TRUE)))
+continents = readOGR("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/data/continents.json")
 continents_map = fortify(continents, region="CONTINENT")
 
 cont_data = read.table(text="id,  value
@@ -31,7 +60,7 @@ South America, 2.140462
 Africa,  7.450000
 Antarctica, 0", header=TRUE, stringsAsFactors=FALSE, sep = ",")
 
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png', width = 1920, height = 1080)
 ggplot()+
   geom_map(data = continents_map, map = continents_map, aes(x=long, y = lat, map_id = id), color = "gray")+
   geom_map(data = cont_data, map = continents_map, aes(map_id = id, fill = value), color = "gray")+
@@ -39,18 +68,69 @@ ggplot()+
   coord_equal()+
   labs(x=NULL, y=NULL)
 dev.off()
-#####################################################################################################################################
+#######################################################################################################################################
 # People from which region...
+
 colnames(alpha2lat)[2] = "detected_country"
 alpha2lat$detected_country = trimws(alpha2lat$detected_country)
 with_coordinates = merge(x = enrolments, y = alpha2lat[,c(2,5,6)], by = "detected_country", all.x = TRUE)
 colnames(with_coordinates)[14] = "lat"
 colnames(with_coordinates)[15] = "long"
 without_na = with_coordinates[!is.na(with_coordinates$long),]
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png', width = 1920, height = 1080)
 ggplot() +
   geom_map(data = world, map = world, aes(long, lat, map_id = region), color = "black", fill = "lightgray")+
   stat_density2d(aes(x = long, y = lat, fill = ..level.., alpha = 0.25), bins = 30, data = without_na, geom = "polygon")
+dev.off()
+
+#######################################################################################################################################
+
+# Which type of people are joining the course most?
+gender = data.frame(gender = enrolments$gender[enrolments$gender != 'Unknown'])
+gender = as.data.frame(table(gender$gender))
+
+edu_lvl = data.frame(edu_lvl = enrolments$highest_education_level[enrolments$highest_education_level != 'Unknown'])
+edu_lvl = as.data.frame(table(edu_lvl$edu_lvl))
+
+emp_status = data.frame(emp_status = enrolments$employment_status[enrolments$employment_status != 'Unknown'])
+emp_status = as.data.frame(table(emp_status$emp_status))
+
+emp_area = data.frame(emp_area = enrolments$employment_area[enrolments$employment_area != 'Unknown'])
+emp_area = as.data.frame(table(emp_area$emp_area))
+
+age_range = data.frame(age_range = enrolments$age_range[enrolments$age_range != 'Unknown'])
+age_range = as.data.frame(table(age_range$age_range))
+
+gg_gender = ggplot(data = gender, aes(x = Var1, y = Freq, fill = Var1))+
+  geom_bar(stat = "identity")+
+  labs(fill = "Gender")+
+  xlab("Gender")
+
+gg_edu_lvl = ggplot(data = edu_lvl, aes(x = Var1, y = Freq, fill = Var1))+
+  geom_bar(stat = "identity")+
+  labs(fill = "Education Level")+
+  xlab("Education Level")
+
+gg_emp_status = ggplot(data = emp_status, aes(x = Var1, y = Freq, fill = Var1))+
+  geom_bar(stat = "identity")+
+  labs(fill = "Employment Status")+
+  xlab("Employment Status")
+
+gg_emp_area = ggplot(data = emp_area, aes(x = Var1, y = Freq, fill = Var1))+
+  geom_bar(stat = "identity")+
+  labs(fill = "Employment Area")+
+  xlab("Employment Area")+
+  theme(axis.text.x = element_text(angle=90))
+
+gg_age_range = ggplot(data = age_range, aes(x = Var1, y = Freq, fill = Var1))+
+  geom_bar(stat = "identity")+
+  labs(fill = "Age Range")+
+  xlab("Age Range")
+lay = rbind(c(1,2),
+            c(3,4),
+            c(5,5))
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/6.png', width = 1920, height = 1080)
+grid.arrange(gg_gender, gg_age_range, gg_emp_status, gg_edu_lvl, gg_emp_area, layout_matrix = lay)
 dev.off()
 #######################################################################################################################################
 
@@ -67,7 +147,7 @@ device_df = melt(device_df, id.vars = c('title'))
 colnames(device_df) <- c('title', 'Device', 'Percentage_Watch')
 
 # saving the plot to the graphs/ directory...
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png', width = 1920, height = 1080)
 ggplot(device_df, aes(x = title, y = Percentage_Watch, fill = Device))+
   geom_bar(stat='identity', position = position_dodge())+
   theme(axis.text.x = element_text(angle=90))
@@ -107,9 +187,9 @@ long_mean_df = melt(mean_df)
 colnames(long_mean_df) = c('Iteration', 'Device', 'Watch_Time')
 
 # saving the plot to the graphs/ directory...
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/5.png', width = 1920, height = 1080)
 ggplot()+
-  geom_bar(long_mean_df, mapping = aes(x = Iteration, y = Watch_Time, fill = Device), stat='identity', position = position_dodge())+
+  geom_bar(long_mean_df, mapping = aes(x = Iteration, y = Watch_Time, fill = Device), stat = 'identity', position = position_dodge())+
   geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = mobile_device_percentage, group = 1))+
   ylab("Watch Time Percent")
 dev.off()

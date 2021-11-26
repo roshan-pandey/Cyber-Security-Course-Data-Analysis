@@ -34,28 +34,52 @@ There are mainly two objectives:
 #### Course Improvement:
 > Accessing the content should be devices(**Desktop, Mobile Phone, Tablet**) friendly based on which device most learners are using.
 
-### From which region most learners are enrolling?
-```{r, echo=FALSE, out.width="100%", fig.cap="Region from where most learners are enrolling"}
+# About the data
+### Data consists of 7 iterations of the course, Cyber Security: Safety at Home, Online, in Life.
+1. “Cyber-security-1_archetype-survey-responses”- file consists of responses of learners for archetype surveys for 1st iteration of the course.
+2. “Cyber-security-2_enrolments”- file consists of Enrollment details of the learner for 2nd iteration of the course.
+3. “Cyber-security-3_leaving-survey-responses”- file consists of responses of learners for course leaving survey for 3rd iteration.
+4. “Cyber-security-4_question-response”- file consists of responses of learners for assessment questions for 4th iteration of the course.
+5. “Cyber-security-5_step-activity”- file consists of step wise first visit and last completion time of learners for 5th iteration of the course.
+6. “Cyber-security-6_team-members”- file consists of the team and user role of people for the 6th iteration of the course.
+7. “Cyber-security-6_video-stats”- file consists of data related to the length of the video, no. of views, no. of downloads, device viewed on, part of world viewed from etc. for 6th iteration of the course.
+8. “Cyber-security-7_weekly-sentiment-survey-responses”- file consists of responses of learners about their sentiments for the week's learning.
+
+# Data Processing
+We are considering data into two different formats, mentioned bellow:
+1. Combined data: Combining data of same file genres from all the iterations. For example, enrollment data from each iteration is been combined row wise (rbind) 
+
+### How is course performing over different iterations?
+```{r, echo=FALSE, out.width="100%", fig.cap="Continent from where most learners are enrolling"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png")
 ```
 
-From fig 2, we can see that mostly learners are enrolled from the UK, India, and USA and there are considerable number of people from regions like Australia, Saudi Arabia, Nigeria, Mexico, and Russia. So, based on number of people from various locations advertisement can be optimized. For example, rather than advertising the course or the platform with same intensity in all the regions, importance can be given to regions like the UK and India. This way cost of investment in advertising can be reduced and profits can be increased and that cost can also be used for reinvesting in the course or platform to improve it even further.  
-
-```{r, echo=FALSE, out.width="100%", fig.cap="Region from where most learners are enrolling"}
+### From which region most learners are enrolling?
+```{r, echo=FALSE, out.width="100%", fig.cap="Continent from where most learners are enrolling"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png")
 ```
+From figure 1, we can observe most learners are coming from Europe
 
-### Which device is being mostly used to access the content?
-
-From Figure 1 we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further more for desktop first and then focus can be shifted to other devices like mobile and tablets etc.
+From fig 2, we can see that mostly learners are enrolled from the UK, India, and USA and there are considerable number of people from regions like Australia, Saudi Arabia, Nigeria, Mexico, and Russia. So, based on number of people from various locations advertisement can be optimized. For example, rather than advertising the course or the platform with same intensity in all the regions, importance can be given to regions like the UK and India. This way cost of investment in advertising can be reduced and profits can be increased and that cost can also be used for reinvesting in the course or platform to improve it even further.  
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png")
 ```
 
+### Which type of people are enrolling for the course?
+```{r, echo=FALSE, out.width="100%", fig.cap="Which type of people are enrolling for the course?"}
+knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/6.png")
+```
 
-Figure 2 shows although mobile phones are being significantly less used as compared to desktops, they are increasing with iterations. So, platform and course content optimization for mobile phone should also be given equal importance.
+### Which device is being mostly used to access the content?
+
+From Figure 4 we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further more for desktop first and then focus can be shifted to other devices like mobile and tablets etc.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png")
+```
+Figure 5 shows although mobile phones are being significantly less used as compared to desktops, they are increasing with iterations. So, platform and course content optimization for mobile phone should also be given equal importance.
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
+knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/5.png")
 ```
