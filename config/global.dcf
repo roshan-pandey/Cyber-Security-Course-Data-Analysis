@@ -8,7 +8,7 @@ munging: TRUE
 logging: FALSE
 logging_level: INFO
 load_libraries: TRUE
-libraries: reshape2, plyr, tidyverse, stringr, lubridate, sjmisc, shiny, ggplot2, dplyr, tm, wordcloud2, ggwordcloud, knitr, GGally, gridExtra, forecast, httr, rgeos, rgdal, maptools
+libraries: reshape2, plyr, tidyverse, stringr, lubridate, sjmisc, shiny, ggplot2, dplyr, tm, wordcloud2, ggwordcloud, knitr, GGally, gridExtra, forecast, httr, rgeos, rgdal, maptools, BBmisc
 as_factors: TRUE
 data_tables: FALSE
 tables_type: tibble
