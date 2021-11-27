@@ -167,13 +167,6 @@ iteration_7 = colMeans(mean_vid_df7)
 
 # Dataframe of means of each device in columns and iterations in rows...
 mean_df = rbind(iteration_3, iteration_4, iteration_5, iteration_6, iteration_7)
-# # mean_df = scale(mean_df)
-# mean_df = cbind(mean_df, c(3, 4, 5, 6, 7))
-# ggplot(as.data.frame(mean_df), aes(x = V4))+
-#   geom_line(aes(y = desktop_device_percentage), col = "red")+
-#   geom_line(aes(y = mobile_device_percentage), col = "blue")+
-#   geom_line(aes(y = tablet_device_percentage), col = "green")
-
 
 # Converting the wide data to long data...
 long_mean_df = melt(mean_df)
@@ -186,17 +179,8 @@ ggplot()+
   geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = mobile_device_percentage, group = 1))+
   ylab("Watch Time Percent")
 dev.off()
-################################################################################################
-# weekly_sent_txt = ""
-# for(txt in weekly$reason){
-#   weekly_sent_txt = paste(weekly_sent_txt, txt)
-# }
-# weekly_sent_txt = Corpus(VectorSource(weekly_sent_txt))
-# weekly_sent_txt = tm_map(weekly_sent_txt, content_transformer(tolower))
-# weekly_sent_txt = tm_map(weekly_sent_txt, removePunctuation)
-# weekly_sent_txt = tm_map(weekly_sent_txt, removeWords, stopwords("english"))
-# weekly_sent_txt = str_replace_all(weekly_sent_txt, "[^[:alnum:]]", " ")  # Removing all non-alphanumeric
-# paste(str_extract_all(weekly_sent_txt, '\\w{3,}')[[1]], collapse=' ')
+
+#######################################################################################################################################
 
 cleaned_string = string_cleaner(weekly$reason)
 clean_txt_df = data.frame(txt = strsplit(cleaned_string, split = " "))
@@ -208,3 +192,22 @@ ggplot(clean_txt_df, aes(label = txt, size = freq, color = factor(sample.int(10,
   scale_size_area(max_size = 35) +
   theme_minimal()
 dev.off()
+
+#######################################################################################################################################
+leaving_reason = data.frame(table(leaving$leaving_reason))
+colnames(leaving_reason) = c('reason', 'freq')
+
+hsize = 1
+
+leaving_reason = leaving_reason %>% 
+  mutate(x = hsize)
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/8.png', width = 1920, height = 1080)
+ggplot(leaving_reason, aes(x = hsize, y = freq, fill = reason)) +
+  geom_col() +
+  coord_polar(theta = "y") +
+  xlim(c(0.2, hsize + 0.5))
+dev.off()
+
+#######################################################################################################################################
+
