@@ -1,7 +1,7 @@
 # setwd('C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/')
 # print("-------------------- PERFORMING EDA ----------------------------------")
-# library('ProjectTemplate')
-# load.project()
+library('ProjectTemplate')
+load.project()
 
 # Selecting video stats data from all the iterations of the course...
 # video_df = get(project.info$cache[7])
@@ -210,4 +210,27 @@ ggplot(leaving_reason, aes(x = hsize, y = freq, fill = reason)) +
 dev.off()
 
 #######################################################################################################################################
+
+total_views = (video %>% group_by(title) %>% summarize(total_views = mean(total_views)))
+total_views$full_watch = (video %>% group_by(title) %>% summarize(watch_100 = mean(viewed_onehundred_percent)))$watch_100
+total_views$qua3_watch = (video %>% group_by(title) %>% summarize(watch_75 = mean(viewed_seventyfive_percent)))$watch_75
+total_views$half_watch = (video %>% group_by(title) %>% summarize(watch_50 = mean(viewed_fifty_percent)))$watch_50
+total_views$qua_watch = (video %>% group_by(title) %>% summarize(watch_25 = mean(viewed_twentyfive_percent)))$watch_25
+total_views = subset(total_views, select = -c(title))
+total_views = normalize(total_views, method = "range", range = c(0,1))
+total_views = as.data.frame(cbind(total_views, video$video_duration[1:13]))
+colnames(total_views)[6] = "Video_Length"
+colnames(total_views)[1] = "View_Count"
+
+total_views$Video_Length = as.factor(total_views$Video_Length)
+views = subset(total_views, select = -c(View_Count))
+views = melt(views, id.vars = c('Video_Length'))
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/9.png', width = 1920, height = 1080)
+ggplot(views, aes(x = Video_Length, y = value, group = variable, color = variable))+
+  geom_bar(data = total_views, mapping = aes(x = reorder(Video_Length, -View_Count, sum), y = View_Count), 
+           fill = "steelblue", stat = "identity", inherit.aes = FALSE)+
+  geom_point()+
+  geom_line()
+dev.off() 
 

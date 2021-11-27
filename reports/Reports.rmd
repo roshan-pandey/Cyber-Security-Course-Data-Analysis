@@ -89,3 +89,11 @@ knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security
 ```{r, echo=FALSE, out.width="100%", fig.cap="Overall weekly sentiments of learners"}
 knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/7.png")
 ```
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Reason for leaving the Course"}
+knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/8.png")
+```
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Optimal Video Length"}
+knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/9.png")
+```
