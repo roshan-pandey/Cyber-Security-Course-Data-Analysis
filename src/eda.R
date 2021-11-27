@@ -7,13 +7,6 @@
 # video_df = get(project.info$cache[7])
 
 world <- map_data("world")
-# views_mean = colMeans(video[,c(22:27)])
-# col_names = c('Europe', 'Oceania', 'Asia', 'NA', 'SA', 'Africa')
-# long = c(20, 150, -100, 80, -60, 15)
-# lat = c(50, -25, 40, 35, -15, 15)
-# continent = data.frame(region = col_names, views = views_mean, lat = lat, long = long, stringsAsFactors = F)
-# # continent = inner_join(world, continent, by = "region")
-
 ######################################################################################################################################
 enrolment_i1 = cyber.security.1_enrolments
 enrolment_i2 = cyber.security.2_enrolments
@@ -120,7 +113,7 @@ gg_emp_area = ggplot(data = emp_area, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Employment Area")+
   xlab("Employment Area")+
-  theme(axis.text.x = element_text(angle=90))
+  theme(axis.text.x = element_text(angle=15))
 
 gg_age_range = ggplot(data = age_range, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
@@ -192,4 +185,26 @@ ggplot()+
   geom_bar(long_mean_df, mapping = aes(x = Iteration, y = Watch_Time, fill = Device), stat = 'identity', position = position_dodge())+
   geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = mobile_device_percentage, group = 1))+
   ylab("Watch Time Percent")
+dev.off()
+################################################################################################
+# weekly_sent_txt = ""
+# for(txt in weekly$reason){
+#   weekly_sent_txt = paste(weekly_sent_txt, txt)
+# }
+# weekly_sent_txt = Corpus(VectorSource(weekly_sent_txt))
+# weekly_sent_txt = tm_map(weekly_sent_txt, content_transformer(tolower))
+# weekly_sent_txt = tm_map(weekly_sent_txt, removePunctuation)
+# weekly_sent_txt = tm_map(weekly_sent_txt, removeWords, stopwords("english"))
+# weekly_sent_txt = str_replace_all(weekly_sent_txt, "[^[:alnum:]]", " ")  # Removing all non-alphanumeric
+# paste(str_extract_all(weekly_sent_txt, '\\w{3,}')[[1]], collapse=' ')
+
+cleaned_string = string_cleaner(weekly$reason)
+clean_txt_df = data.frame(txt = strsplit(cleaned_string, split = " "))
+clean_txt_df = data.frame(table(clean_txt_df))
+colnames(clean_txt_df) = c("txt", "freq")
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/7.png', width = 1920, height = 1080)
+ggplot(clean_txt_df, aes(label = txt, size = freq, color = factor(sample.int(10, nrow(clean_txt_df), replace = TRUE)),)) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 35) +
+  theme_minimal()
 dev.off()
