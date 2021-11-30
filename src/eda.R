@@ -1,11 +1,3 @@
-# setwd('C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/')
-# print("-------------------- PERFORMING EDA ----------------------------------")
-library('ProjectTemplate')
-load.project()
-
-# Selecting video stats data from all the iterations of the course...
-# video_df = get(project.info$cache[7])
-
 world <- map_data("world")
 ######################################################################################################################################
 enrolment_i1 = cyber.security.1_enrolments
@@ -16,24 +8,28 @@ enrolment_i5 = cyber.security.5_enrolments
 enrolment_i6 = cyber.security.6_enrolments
 enrolment_i7 = cyber.security.7_enrolments
 
-learners_in_batch_1 = dim(enrolment_i1)
-learners_in_batch_2 = dim(enrolment_i2)
-learners_in_batch_3 = dim(enrolment_i3)
-learners_in_batch_4 = dim(enrolment_i4)
-learners_in_batch_5 = dim(enrolment_i5)
-learners_in_batch_6 = dim(enrolment_i6)
-learners_in_batch_7 = dim(enrolment_i7)
+batch_1 = dim(enrolment_i1)
+batch_2 = dim(enrolment_i2)
+batch_3 = dim(enrolment_i3)
+batch_4 = dim(enrolment_i4)
+batch_5 = dim(enrolment_i5)
+batch_6 = dim(enrolment_i6)
+batch_7 = dim(enrolment_i7)
 
-dim_df = as.data.frame(rbind(learners_in_batch_1, learners_in_batch_2, learners_in_batch_3, learners_in_batch_4, learners_in_batch_5, learners_in_batch_6, learners_in_batch_7))
+dim_df = as.data.frame(rbind(batch_1, batch_2, batch_3, batch_4, batch_5, batch_6, batch_7))
 colnames(dim_df) = c("Number_of_learners_enrolled", "Number_of_features")
 dim_df$batch = rownames(dim_df)
 row.names(dim_df) <- NULL
 
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png', width = 1920, height = 1080)
-ggplot()+
+performance = ggplot()+
   geom_line(data = dim_df, mapping = aes(x = batch, y = Number_of_learners_enrolled, group = 1), col = "blue")+
   geom_point(data = dim_df, mapping = aes(x = batch, y = Number_of_learners_enrolled, group = 1), col = "red", size = 2)+
-  theme(axis.text.x = element_text(angle=90))
+  xlab("Batches")+
+  ylab("Number of Learners")+
+  theme(axis.text.x = element_text(angle=90), text = element_text(size = 30))
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png', width = 1920, height = 1080)
+grid.arrange(performance)
 dev.off()
 #######################################################################################################################################
 
@@ -53,13 +49,18 @@ South America, 2.140462
 Africa,  7.450000
 Antarctica, 0", header=TRUE, stringsAsFactors=FALSE, sep = ",")
 
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png', width = 1920, height = 1080)
-ggplot()+
+continents_plot = ggplot()+
   geom_map(data = continents_map, map = continents_map, aes(x=long, y = lat, map_id = id), color = "gray")+
   geom_map(data = cont_data, map = continents_map, aes(map_id = id, fill = value), color = "gray")+
   scale_fill_distiller("Percentage Views")+
+  xlab("Longitude")+
+  ylab("Latitude")+
   coord_equal()+
+  theme(text = element_text(size = 30))+
   labs(x=NULL, y=NULL)
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png', width = 1920, height = 1080)
+grid.arrange(continents_plot)
 dev.off()
 #######################################################################################################################################
 # People from which region...
@@ -70,10 +71,16 @@ with_coordinates = merge(x = enrolments, y = alpha2lat[,c(2,5,6)], by = "detecte
 colnames(with_coordinates)[14] = "lat"
 colnames(with_coordinates)[15] = "long"
 without_na = with_coordinates[!is.na(with_coordinates$long),]
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png', width = 1920, height = 1080)
-ggplot() +
+
+country_plot = ggplot() +
   geom_map(data = world, map = world, aes(long, lat, map_id = region), color = "black", fill = "lightgray")+
-  stat_density2d(aes(x = long, y = lat, fill = ..level.., alpha = 0.25), bins = 30, data = without_na, geom = "polygon")
+  stat_density2d(aes(x = long, y = lat, fill = ..level.., alpha = 0.25), bins = 30, data = without_na, geom = "polygon")+
+  xlab("Longitude")+
+  ylab("Latitude")+
+  theme(text = element_text(size = 30))
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png', width = 1920, height = 1080)
+grid.arrange(country_plot)
 dev.off()
 
 #######################################################################################################################################
@@ -122,7 +129,7 @@ gg_age_range = ggplot(data = age_range, aes(x = Var1, y = Freq, fill = Var1))+
 lay = rbind(c(1,2),
             c(3,4),
             c(5,5))
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/6.png', width = 1920, height = 1080)
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png', width = 1920, height = 1080)
 grid.arrange(gg_gender, gg_age_range, gg_emp_status, gg_edu_lvl, gg_emp_area, layout_matrix = lay)
 dev.off()
 #######################################################################################################################################
@@ -139,11 +146,15 @@ device_df = cbind(desktop_percentage, mobile_percentage[,2], tablet_percentage[,
 device_df = melt(device_df, id.vars = c('title'))
 colnames(device_df) <- c('title', 'Device', 'Percentage_Watch')
 
-# saving the plot to the graphs/ directory...
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png', width = 1920, height = 1080)
-ggplot(device_df, aes(x = title, y = Percentage_Watch, fill = Device))+
+device_plot = ggplot(device_df, aes(x = title, y = Percentage_Watch, fill = Device))+
   geom_bar(stat='identity', position = position_dodge())+
-  theme(axis.text.x = element_text(angle=90))
+  xlab("Video Title")+
+  ylab("Percentage Watch")+
+  theme(axis.text.x = element_text(angle=55, hjust = 1), text = element_text(size = 25))
+
+# saving the plot to the graphs/ directory...
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/5.png', width = 1920, height = 1080)
+grid.arrange(device_plot)
 dev.off()
 
 ########################################################################################################################################
@@ -172,12 +183,17 @@ mean_df = rbind(iteration_3, iteration_4, iteration_5, iteration_6, iteration_7)
 long_mean_df = melt(mean_df)
 colnames(long_mean_df) = c('Iteration', 'Device', 'Watch_Time')
 
-# saving the plot to the graphs/ directory...
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/5.png', width = 1920, height = 1080)
-ggplot()+
+device_ittr_plot = ggplot()+
   geom_bar(long_mean_df, mapping = aes(x = Iteration, y = Watch_Time, fill = Device), stat = 'identity', position = position_dodge())+
   geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = mobile_device_percentage, group = 1))+
-  ylab("Watch Time Percent")
+  ylab("Percentage Watch")+
+  xlab("Batch Iteration")+
+  theme(text = element_text(size = 30))
+
+
+# saving the plot to the graphs/ directory...
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/6.png', width = 1920, height = 1080)
+grid.arrange(device_ittr_plot)
 dev.off()
 
 #######################################################################################################################################
@@ -186,11 +202,34 @@ cleaned_string = string_cleaner(weekly$reason)
 clean_txt_df = data.frame(txt = strsplit(cleaned_string, split = " "))
 clean_txt_df = data.frame(table(clean_txt_df))
 colnames(clean_txt_df) = c("txt", "freq")
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/7.png', width = 1920, height = 1080)
-ggplot(clean_txt_df, aes(label = txt, size = freq, color = factor(sample.int(10, nrow(clean_txt_df), replace = TRUE)),)) +
+
+sent <- get_nrc_sentiment(as.character(clean_txt_df$txt))
+sent_score = colSums(sent)
+sent_score_df = rbind(colnames(sent), sent_score)
+sent_score_df = as.data.frame(t(sent_score_df))
+sent_score_df = subset(sent_score_df, select = -c(1))
+sent_score_df$sent_score = as.numeric(sent_score_df$sent_score)
+
+sentiments_word_cloud = ggplot(clean_txt_df, aes(label = txt, size = freq, color = factor(sample.int(10, nrow(clean_txt_df), replace = TRUE)),)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 35) +
   theme_minimal()
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/7.png', width = 1920, height = 1080)
+grid.arrange(sentiments_word_cloud)
+dev.off()
+
+
+sent_plot = ggplot(data = sent_score_df, mapping = aes(x = row.names(sent_score_df), y = sent_score, fill = row.names(sent_score_df)))+
+  geom_bar(stat = "identity")+
+  theme(text = element_text(size = 25))+
+  xlab("Sentiments")+
+  ylab("Sentiment Score")+
+  labs(fill = "Sentiments")
+
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/8.png', width = 1920, height = 1080)
+grid.arrange(sent_plot)
 dev.off()
 
 #######################################################################################################################################
@@ -202,11 +241,15 @@ hsize = 1
 leaving_reason = leaving_reason %>% 
   mutate(x = hsize)
 
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/8.png', width = 1920, height = 1080)
-ggplot(leaving_reason, aes(x = hsize, y = freq, fill = reason)) +
+leaving_reason_plot = ggplot(leaving_reason, aes(x = hsize, y = freq, fill = reason)) +
   geom_col() +
   coord_polar(theta = "y") +
-  xlim(c(0.2, hsize + 0.5))
+  xlim(c(0.2, hsize + 0.5))+
+  labs(fill = "Reasons")+
+  theme(text = element_text(size = 30))
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/9.png', width = 1920, height = 1080)
+grid.arrange(leaving_reason_plot)
 dev.off()
 
 #######################################################################################################################################
@@ -225,12 +268,19 @@ colnames(total_views)[1] = "View_Count"
 total_views$Video_Length = as.factor(total_views$Video_Length)
 views = subset(total_views, select = -c(View_Count))
 views = melt(views, id.vars = c('Video_Length'))
+colnames(views) = c("Video_Length", "Watch_Status", "Value")
 
-png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/9.png', width = 1920, height = 1080)
-ggplot(views, aes(x = Video_Length, y = value, group = variable, color = variable))+
-  geom_bar(data = total_views, mapping = aes(x = reorder(Video_Length, -View_Count, sum), y = View_Count), 
+views_comparison_plot = ggplot(views, aes(x = Video_Length, y = Value, group = Watch_Status, color = Watch_Status))+
+  geom_bar(data = total_views, mapping = aes(x = Video_Length, y = View_Count), 
            fill = "steelblue", stat = "identity", inherit.aes = FALSE)+
-  geom_point()+
-  geom_line()
-dev.off() 
+  geom_point(size = 2.5)+
+  geom_line(size = 1.5)+
+  xlab("Video Length")+
+  ylab("Normalized Watch Percent")+
+  labs(fill = "Watch Status")+
+  theme(text = element_text(size = 30))
 
+
+png(file = 'C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/10.png', width = 1920, height = 1080)
+grid.arrange(views_comparison_plot)
+dev.off()
