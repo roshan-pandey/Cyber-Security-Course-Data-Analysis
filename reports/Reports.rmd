@@ -17,7 +17,7 @@ load.project()
 
 
 ```{r EDA, include = FALSE}
-source('C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/src/eda.R')
+source('./src/eda.R')
 ```
 
 # 1. Introduction
@@ -54,10 +54,10 @@ The idea behind combining the data from different iterations is to get a broader
 
 **Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned(removal of stop words, punctuation, every word to lower case, removal of special chars and worlds of length 3 or less). After this cleaned text was split into words and then sentiment score was calculated for each words.
 
-**IMPORTANT:** 
+**IMPORTANT Assumptions:** 
 
 - All the analysis are done by removing "unknown" values and hence, this analysis may or may not represent the true population distribution because majority of the fields are unknown.
-- To analyze from which country most learners are enrolling, we are considering "detected_country" rather than "country" from enrollment data because, most of the rows in country column is "unknown". We matched both the columns and most of the values that are not "unknown" in country column are same as detected_country column except for few(approx 13-14 values). Hence, we are assuming detected_country can be a good measure of figuring out which country has most learners enrolled.
+- To analyze from which country most learners are enrolling, we are considering "detected_country" rather than "country" from enrollment data because, most of the fields in country column is "unknown". We matched both the columns and most of the values that are not "unknown" in country column are same as detected_country column except for few(approx 13-14 values). Hence, we are assuming detected_country can be a good measure of figuring out which country has most learners enrolled from.
 
 # 5. Data Analysis
 
@@ -65,15 +65,15 @@ The idea behind combining the data from different iterations is to get a broader
 
 From figure 1 we can clearly observe that number of learners are decreasing over different iterations of the course so, we can say that course is not performing well in terms of attracting potential learners. We will try to analyze what is going wrong based on various factors like, whats the reason of leaving the course and what kind of sentiments they have towards the course.
 
-##### About the figure 1:
+##### About figure 1:
 
 - x-axis: Different runs of the course.
 - y-axis: Number of learners enrolled.
-
-
+- Separate data from each iteration is taken into consideration.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Number of Learners Enrolled over Different Iteration"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/1.png")
+# knitr::include_graphics("graphs/1.png")
+plot(performance)
 ```
 
 ## 5.1 Targeting right audience.
@@ -82,75 +82,174 @@ knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security
 
 From figure 2, we can observe most learners are coming from Europe accounting for around 59% of the total learners and from Asia and North America, 15% and 10% respectively. So, it will be a wise decision to tailor the course as per European countries, for example adding transcripts and captions in other languages like French, Spanish, Italian, and German etc. This will allow learners to understand the course much more comfortably and hence it will enhance their experience with course. We can also try to analyze from which country most learners are enrolling.
 
-##### About the figure 2:
+##### About figure 2:
 
 - x-axis: Latitude.
 - y-axis: Longitude.
 - Legend: Dark blue denotes less number of people, white denotes more number of people.
+- Merged data is taken into consideration.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Continent from where most learners are enrolling"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/2.png")
+# knitr::include_graphics("graphs/2.png")
+plot(continents_plot)
 ```
 
-From figure 3, we can see that mostly learners are enrolled from the UK, India, and USA and there are considerable number of people from countries like Australia, Saudi Arabia, Nigeria, Mexico, and Russia. So, based on the number of people from various locations advertisement can be optimized. For example, rather than advertising the course or the platform with same intensity in all the regions, importance can be given to regions like the UK and India. This way cost of investment in advertising can be reduced and profits can be increased and that cost can also be used for reinvesting in the course or platform to improve it even further.  
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Countries from where most learners are enrolling"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/3.png")
+# knitr::include_graphics("graphs/3.png")
+plot(country_plot)
 ```
+
+From figure 3, we can see that mostly learners are enrolled from the UK, India, and USA and there are considerable number of people from countries like Australia, Saudi Arabia, Nigeria, Mexico, and Russia. So, based on the number of people from various locations advertisement can be optimized. For example, rather than advertising the course or the platform with same intensity in all the regions, importance can be given to regions like the UK and India. This way cost of investment in advertising can be reduced and profits can be increased and that cost can also be used for reinvesting in the course or platform to improve it even further.
+
+##### About figure 3:
+
+- x-axis: Latitude.
+- y-axis: Longitude.
+- Legend: *Level* tells about the intensity of a point on map. Higher level(Light blue) represents more number of people. **Alpha** is used for the hardness/softness of the marked area as we move away from the peak center region.
+- Merged data is taken into consideration.
 
 ### 5.1.2 Which type of people are enrolling for the course?
 
 From figure 4, we can observe following key information:
 
-1. Most learners are male and females are close second. Nonbinary and others are very less.
-2. Most learners are between age range 26 to 35 years. However, there are considerable number of learners in all age range except for less than 18 years.
+1. Most learners are male, and females are close second. Nonbinary and others are very less.
+2. Most learners are between age range 26 to 35 years. However, there are considerable number of learners in all age range except for less than 18 years. 
 3. People working full time and in IT and information services tend to take the course more often as compared to people from any other employment status and area. 
 4. Significant number of learners are holding university degree.
+5. Overall, from the analysis that has been carried out so far, we can say that advertisement can be pushed to people from all age range but certainly focus can be from 26 to 35 years age range, people who are working full time are also seemed to be interested in the course and want to learn how their data is being used, university degree holders are also extremely interested in the course, in terms of employment area, people from information technology services and educational background have shown tremendous interest in the course. So people from all age range, having university degree, with full time job, or from IT and educational background can be attracted via suitable ads. 
+
+##### About figure 4:
+
+- y-axis of all the plot is the count of individuals(learners).
+- x-axis is different categorical variables(features) of the learners such as gender, age range, employment status, employment area, and highest education level.
+- Merged data is taken into consideration.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Which type of people are enrolling for the course?"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/4.png")
+# knitr::include_graphics("graphs/4.png")
+plot(arrange_plot)
 ```
 
 ## 5.2 Course Improvement
 
-From Figure 5, we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further for desktop and then focus can be shifted to other devices like mobile and tablets.
+### 5.2.1 Which device is widely used?
+
+From Figure 5, we can see that most of the times course is being accessed on desktop and hence, the learning platform and content can be optimized further for desktop and then focus can be shifted to other devices like mobile and tablets. In recent times with exponential advancements in mobile technology most people might want to access the content on their smartphones as it allows learners to access the content on the go with much ease. So we will try to analyse whether there is an upward trend in usage of mobile phone or not.
+
+##### About figure 5:
+
+- y-axis: Percent of content watched on a particular device. For example, 78% of the learners watched the video on desktop, 12% on mobile phone, and 10% on tablets.
+- x-axis: Title of different videos.
+- Legends: Different devices.
+- Merged data is taken into consideration.
+
+
+**NOTE**: 
+Consoles and TVs are not taken into consideration as they were very less or zero percent in use. 
+
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content"}
+# knitr::include_graphics("graphs/5.png")
+plot(device_plot)
+```
+
+Figure 6 shows, although mobile phones are being used significantly less as compared to desktops, there is a subtle increase in the popularity of the mobile phones as the course is being run over different iterations. So, platform and course content optimization for mobile phone should also be taken into consideration as it will enhance the user experience of the learners. Moreover, from section 5.1.2 we found out there are significant number of learners who are senior citizens and in several studies(reference xyz) it has been found more and more older people are starting to use smartphone as it is easy to carry. Hence, content viewing and readability on phone should also be given utmost importance.
+
+##### About figure 6:
+
+- y-axis: Percent of content watched on a particular device. For example, 80% of the learners watched the video content on desktop, 9% on mobile phone, and 11% on tablets in the first iteration of the course.
+- x-axis: Different iterations of the Course.
+- Legends: Different devices.
+- Separate data is taken into consideration.
+- Relevant data is not available for 1st two iterations thats why analysis is being done from 3rd to 7th iteration.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/5.png")
+# knitr::include_graphics("graphs/6.png")
+plot(device_ittr_plot)
 ```
 
-Figure 6 shows, although mobile phones are being used significantly less as compared to desktops, they are increasing with different iterations of the course. So, platform and course content optimization for mobile phone should also be given equally important.
+### 5.2.2 Overall weekly sentiments of learners.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/6.png")
+From figure 7, we can see mostly words are positive and hence we can say that learners have had good experience with the course content. They have found the course to be useful, interesting, informative, practical, etc. So, decrease in number of enrollments over the time is clearly not because of course content. Further analysis needs to be carried out to pin point the exact reason behind people leaving the course and decrement in number of learners over different runs of the course.
+
+##### About figure 7:
+
+All the weekly sentiment reasons from different batches has been merged and text processing mentioned in section 4 of the report was carried out for cleaner and better insights.
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Overall sentiments of learners"}
+# knitr::include_graphics("graphs/7.png")
+plot(sentiments_word_cloud)
+```
+Figure 8 represents the sentiment score of different sentiments like positive, negative, anticipation, joy, trust, etc. Syuzhet package was used for generating sentiment scores, which has sentiment dictionaries and offers a method for accessing the sentiment extraction tool developed in the NLP group at Stanford. Refer reference section for more details about the package and its usability. From figure 8 we can support our analysis in the previous step (Fig 7) and state that overall sentiment of learners was positive and need to spot the exact reason for leaving the course.
+
+##### About figure 7:
+
+- x-axis: Sentiments
+- y-axis: Sentiments scores
+- All the weekly sentiment reasons from different batches has been merged and text processing mentioned in section 4 of the report was carried out for cleaner and better insights.
+
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Overall sentiment scores of learners"}
+# knitr::include_graphics("graphs/8.png")
+plot(sent_plot)
 ```
 
-### Overall weekly sentiments of learners.
+### 5.2.3 Reason(s) for leaving the course.
 
-From figure 7, we can mostly words are positive and hence we can say that learners have had good experience with the course content. So, decrease in number of enrollments over the time is clearly not because of course content. Further analysis needs to be carried out to pin point the exact reason behind people leaving the course and decrement in number of learners over different runs of the course.
+From figure 9, we can clearly see people are leaving the course mainly because either they don't have sufficient time to complete the course or they expected the course to take less time to complete but that's not the case. So, if possible course can be either shortened or divided into multiple courses this way learners can choose which part of the course they want to take and they will be able to finish the course in less time which will lead them to buy the next part of the course.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Overall weekly sentiments of learners"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/7.png")
+##### About figure 9:
+
+- Numbers on the donut chart represent the number of learners given a particular reason. For example, 103 learners gave reason as "I don't have enough time".
+- Legend: Reasons for leaving the course.
+
+
+```{r, echo=FALSE, out.width="100%", fig.cap="Reason for leaving the course"}
+# knitr::include_graphics("graphs/9.png")
+plot(leaving_reason_plot)
 ```
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Overall weekly sentiments of learners"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/8.png")
-```
+###  5.2.4 Optimal length of the videos.
 
-### Reason for leaving the course.
+Figure 9 suggests, when the video length is around 5 minutes (313 seconds) people tend to stay till the end of the video so, if possible keeping the length of the videos close to 5 minutes will be optimal because learners will be attentive through out the video and it is possible to cover good quality and quantity of content in this video length. Some research and survey also back this(best video length: 5-6 mins) finding. **Reference xyz** \
+However, it is also possible something very important is being covered in that specific video (**Exploring security: biometric authentication**) that has length 313 seconds and hence learners are watching that video till the end. This statement can also be supported by observing the video of length 426 seconds. Although there are relatively less people watching the video till the end, they are comparable with number of people watching video of length 313 and hence we can say people tend to stick to the video till the end when something important is being covered in the video. So, it is hard to comment on optimal length of the video but we can make an estimation of around 5 to 6 mins or 300 to 360 seconds.
 
-From figure 8, we can clearly see people are leaving the course mainly because either they don't have sufficient time to complete the course or they expected the course to take less time to complete but that's not the case. So, if possible course can be either shortened or divided into multiple courses.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Reason for leaving the Course"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/9.png")
-```
+##### About figure 10:
 
-### Optimal length of the videos.
+- x-axis: Video Length
+- y-axis: Normalized Watch percentage and view count for each video length.
+- Legend: full_watch represents video watched 100%, qua3_watch represents video watched 75% , half_watch represents video watched 50%, qua_watch represents video watched 25% 
 
-Figure 9 suggests, when the video length is around 5 minutes (313 seconds) people tend to stay till the end of the video so, if possible keeping the length of most videos close to 5 minutes will be optimal because learners will be attentive through out the video and it is totally possible to cover good quality and quantity of content in this video length. However, it is also possible something very important is being covered in that specific video (**Exploring security: biometric authentication**) that has length 313 seconds and hence learners are watching that video till the end.
+Data has been column normalized because total number of views were very high and can go up to very large number where as percentage of people who watched whole video or half video can only go up to 100 so, it is really hard to plot them on one plot, hence, total views and different watch percentages were normalized.
 
 ```{r, echo=FALSE, out.width="100%", fig.cap="Optimal Video Length"}
-knitr::include_graphics("C:/DataScience/R/CSC8631_Data_Management/Cyber-Security-Data-Analysis/graphs/10.png")
+# knitr::include_graphics("graphs/10.png")
+plot(views_comparison_plot)
 ```
 
-- weekly sentiments are positive means course is good, people dont have time thats why leaving and hence course can be modified in such a way that quality can be maintained but can be covered in less time...
+# 6 Modeling
+We have used pre-trained NLP model from Syuzhet package which was developed at Stanford as mentioned in section 5.2.2 figure 8 description. We used get_sentiment function which accepts two parameters, a character vector and a method. The selected method determines which of the available sentiment extraction methods will be used. The methods are bing, afinn and nrc.\
+
+*nrc*: This method categorizes the words into binary mode (yes, no) for positive, negative, anger, anticipation, disgust, fear, joy, sadness, surprise, and trust. For example, if a word is positive, 1 is assigned to positive and 0 to rest, if a word is of trust sentiment, 1 is assigned to trust and 0 to others.\
+*bing*: This method categorizes words in positive and negative words. \
+*AFFINN*: This method assigns score ranging from -5 to 5 to each word. Negative score means negative sentiment and positive score means positive sentiments. 
+
+## 6.2 Method selection
+nrc method was selected because it not only gives positive and negative sentiment scores but also few other sentiments like anger, joy, trust, etc. This allowed us to analyze learners' feelings towards the course in greater detail and we observed most people had positive sentiments towards the course but also they trusted the course and enjoyed the learning. Which clearly suggests course content is really good.
+
+# 7 Evaluation of the Analysis
+
+All the analysis is carried out by taking assumptions into the consideration discussed in section 4. This may result in uncertainty however, we performed various analysis for same objective on different data so that analysis can be supported.
+
+- To figure out from which part of the world most learners are enrolling, we considered video stats data to find which continent has more learners then we analysed detected_country data from enrollment dataset and they both supported each other. Most learners are coming from Europe and they are residing in the UK.
+- To analyze what kind of people enroll for the course more often, we checked people from each iteration and then from overall data(merged data, for detail refer section 4) final plot was constructed. Plot from different iteration was not included in the report to avoid redundancy in the graphical representation of the information.
+- To make estimations on which device is being used the most, data was available only from 3rd to 7th iteration so, analysis was done over 5 out of 7 runs of the course.
+- To observe the sentiments of the learners we constructed the word cloud then eye balled which type of words are used most often and we stated positive sentiment. To support this finding we also calculated sentiment scores(for detail, refer section 6) and it also suggested positive sentiments.
+- To pin point the reason we analysed the leaving survey, here considerable number of fields were null so findings might be biased. Also, significant number of people gave reason as "Other" so, we don't know what that can be. 
+
+# 8 References
+
+syuzhet package for NLP: https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html
+Video length research: https://www.techsmith.com/blog/video-length/
+Sentiment Extraction Methods: https://www.tidytextmining.com/sentiment.html
