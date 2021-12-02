@@ -15,7 +15,6 @@ library(ProjectTemplate)
 load.project()
 ```
 
-
 ```{r EDA, include = FALSE}
 source('./src/eda.R')
 ```
@@ -35,7 +34,10 @@ There are mainly two objectives for this analysis:
 > Once right audience has been singled out, course can be improved to make it more appealing to the potential learers. This can be done in various ways such as, analysing which type of devices (**Desktop, Mobile Phone, Tablet**) are being used most often than others, is there any trend in usability of a particular device over different runs of the course. Analysis can also be done on sentiments of the learners who have taken the course in the past and peaking into the reasons why they chose to leave the course.
 
 # 3. Data Description
-### Data consists of 7 iterations of the course, Cyber Security: Safety at Home, Online, in Life.
+## 3.1 Whole dataset of Cyber Security: Safety at Home, Online, in Life course.
+
+Data is consist of 7 different iterations(runs) of the course. 
+
 - “Cyber-security-1_archetype-survey-responses”- This file consists of responses of learners for archetype surveys for 1st iteration of the course.
 - “Cyber-security-2_enrolments”- This file consists of Enrollment details of the learner for 2nd iteration of the course.
 - “Cyber-security-3_leaving-survey-responses”- This file consists of responses of learners for course leaving survey for 3rd iteration.
@@ -45,16 +47,39 @@ There are mainly two objectives for this analysis:
 - “Cyber-security-6_video-stats”- This file consists of data related to the length of the video, no. of views, no. of downloads, device viewed on, part of world viewed from etc. for 6th iteration of the course.
 - “Cyber-security-7_weekly-sentiment-survey-responses”- This file consists of responses of learners about their sentiments for the week's learning.
 
+## 3.2 Subset of data taken into consideration.
+
+- **Enrolment data** has numerous variables in this dataset but we are only considering following features of the learners: \
+*Gender* has sex of the learners, in this we have male, female, nonbinary and others. There are majority of the fields as unknown. \
+*Age Range* has several age intervals: less than 18, 19-25, 26-35, 36-45, 46-55, 56-65 and above 65, here also most fields are unknown. \
+*Heighest Education Level* tells about the highest education qualifican that learners have achieved before joining the course. we have unknows in this field too. \
+*Employment Area* has the record of from which background learners are coming from. For example, health care, IT, education etc. Unknowns can be seen here as well. \
+*Employment Status* depicts the current state of learners' working state. Majority of the fields are unknown.\
+*Detected Country* tells about the location from where learners are enrolling.
+- **Video Stats data** has details about the number of views each video has got, length of the video, devises used and many more, however, we have considered subset of features mentione below: \
+*Title* column has all the video titles. \
+*Video Duration* has total length of the video in seconds. \
+*Viewed x Percent*: There are multiple columns with percent of learners watched 10%, 25%, 50%, or 100% of a particular video length. \
+*x Device Percentage*: There are different columns that has data of percent of learners watched the concent on which device(mobile, desktop, console, tv, tablet). \
+*x View Percentage*: There are several columns with percent of learners watched the video from which country.
+- **Weekly Sentiments data** has multiple fields but we are only interested in learners sentiment reasons for a particular week which is stored in *reasons* column.
+- **Leaving Survey data** has data related to when an individual left the course, last completed step and many more however, we are only considering the *leaving reason* column which will also us to get better undstanding of why people left the course.
+
 # 4. Data Processing
 We are considering data into two different formats, mentioned bellow:
 
-- Merging data: Combining data of same file genre from all the iterations. For example, enrollment data from each iteration is been combined row wise (rbind) on top of each other ad like wise for archetype, video stats, leaving survey, weekly sentiments, question response, etc. \
+4.1 **Merging data**: Combining data of same file genre from all the iterations. For example, enrollment data from each iteration is been combined row wise (rbind) on top of each other ad like wise for archetype, video stats, leaving survey, weekly sentiments, question response, etc. \
 The idea behind combining the data from different iterations is to get a broader picture of how the course is performing, what type of people are joining the course, and how are they utilizing the course.
-- Separate data: All different file genres from various iterations are kept separately to see how the data is changing between different runs of the course. This analysis will assist us to see whether there is a shift in trend as to how people are making use of the course. For example, are people preferring mobile devices more in recent batched or they still like to use desktop computers.  
 
-**Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned(removal of stop words, punctuation, every word to lower case, removal of special chars and worlds of length 3 or less). After this cleaned text was split into words and then sentiment score was calculated for each words.
+4.2 **Separate data**: All different file genres from various iterations are kept separately to see how the data is changing between different runs of the course. This analysis will assist us to see whether there is a shift in trend as to how people are making use of the course. For example, are people preferring mobile devices more in recent batched or they still like to use desktop computers.
 
-**IMPORTANT Assumptions:** 
+4.3 **Enrollment data with geographical coordinates**: Enrollment data from section 4.1 was joined with data downloaded from github(Link in reference section) based on alpha 2 code of the countries.
+
+4.4 To analyse which device is being used the most, video stat data from section 4.1 was used and mean of different device columns was calculated.
+
+4.5 **Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned(removal of stop words, punctuation, every word to lower case, removal of special chars and worlds of length 3 or less). After this cleaned text was split into words and then sentiment score was calculated for each words.
+
+4.6 **IMPORTANT Assumptions:** 
 
 - All the analysis are done by removing "unknown" values and hence, this analysis may or may not represent the true population distribution because majority of the fields are unknown.
 - To analyze from which country most learners are enrolling, we are considering "detected_country" rather than "country" from enrollment data because, most of the fields in country column is "unknown". We matched both the columns and most of the values that are not "unknown" in country column are same as detected_country column except for few(approx 13-14 values). Hence, we are assuming detected_country can be a good measure of figuring out which country has most learners enrolled from.
@@ -71,8 +96,7 @@ From figure 1 we can clearly observe that number of learners are decreasing over
 - y-axis: Number of learners enrolled.
 - Separate data from each iteration is taken into consideration.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Number of Learners Enrolled over Different Iteration"}
-# knitr::include_graphics("graphs/1.png")
+```{r, echo=FALSE, out.width="100%", fig.height=4, fig.width=9, fig.cap="Number of learners enrolled over different iteration"}
 plot(performance)
 ```
 
@@ -89,14 +113,12 @@ From figure 2, we can observe most learners are coming from Europe accounting fo
 - Legend: Dark blue denotes less number of people, white denotes more number of people.
 - Merged data is taken into consideration.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Continent from where most learners are enrolling"}
-# knitr::include_graphics("graphs/2.png")
+```{r, echo=FALSE, out.width="100%", fig.height=9, fig.width=16, fig.cap="Continent from where most learners are enrolling"}
 plot(continents_plot)
 ```
 
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Countries from where most learners are enrolling"}
-# knitr::include_graphics("graphs/3.png")
+```{r, echo=FALSE, out.width="100%", fig.height=9, fig.width=16, fig.cap="Countries from where most learners are enrolling"}
 plot(country_plot)
 ```
 
@@ -125,7 +147,7 @@ From figure 4, we can observe following key information:
 - x-axis is different categorical variables(features) of the learners such as gender, age range, employment status, employment area, and highest education level.
 - Merged data is taken into consideration.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Which type of people are enrolling for the course?"}
+```{r, echo=FALSE, out.width="100%", fig.height=9, fig.width=16, fig.cap="Which type of people are enrolling for the course?"}
 # knitr::include_graphics("graphs/4.png")
 plot(arrange_plot)
 ```
@@ -148,8 +170,7 @@ From Figure 5, we can see that most of the times course is being accessed on des
 Consoles and TVs are not taken into consideration as they were very less or zero percent in use. 
 
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content"}
-# knitr::include_graphics("graphs/5.png")
+```{r, echo=FALSE, out.width="100%", fig.height= 4, fig.width=9, fig.cap="Most widely used device to access the content"}
 plot(device_plot)
 ```
 
@@ -163,7 +184,7 @@ Figure 6 shows, although mobile phones are being used significantly less as comp
 - Separate data is taken into consideration.
 - Relevant data is not available for 1st two iterations thats why analysis is being done from 3rd to 7th iteration.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Most widely used device to access the content in each iteration"}
+```{r, echo=FALSE, out.width="100%", fig.height= 4, fig.width=9, fig.cap="Most widely used device to access the content in each iteration"}
 # knitr::include_graphics("graphs/6.png")
 plot(device_ittr_plot)
 ```
@@ -176,7 +197,7 @@ From figure 7, we can see mostly words are positive and hence we can say that le
 
 All the weekly sentiment reasons from different batches has been merged and text processing mentioned in section 4 of the report was carried out for cleaner and better insights.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Overall sentiments of learners"}
+```{r, echo=FALSE, out.width="100%", fig.height=11, fig.width=20, fig.cap="Overall sentiments of learners"}
 # knitr::include_graphics("graphs/7.png")
 plot(sentiments_word_cloud)
 ```
@@ -189,7 +210,7 @@ Figure 8 represents the sentiment score of different sentiments like positive, n
 - All the weekly sentiment reasons from different batches has been merged and text processing mentioned in section 4 of the report was carried out for cleaner and better insights.
 
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Overall sentiment scores of learners"}
+```{r, echo=FALSE, out.width="100%", fig.height= 4, fig.width=9, fig.cap="Overall sentiment scores of learners"}
 # knitr::include_graphics("graphs/8.png")
 plot(sent_plot)
 ```
@@ -204,14 +225,14 @@ From figure 9, we can clearly see people are leaving the course mainly because e
 - Legend: Reasons for leaving the course.
 
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Reason for leaving the course"}
+```{r, echo=FALSE, out.width="100%", fig.height= 4, fig.width=9, fig.cap="Reason for leaving the course"}
 # knitr::include_graphics("graphs/9.png")
 plot(leaving_reason_plot)
 ```
 
 ###  5.2.4 Optimal length of the videos.
 
-Figure 9 suggests, when the video length is around 5 minutes (313 seconds) people tend to stay till the end of the video so, if possible keeping the length of the videos close to 5 minutes will be optimal because learners will be attentive through out the video and it is possible to cover good quality and quantity of content in this video length. Some research and survey also back this(best video length: 5-6 mins) finding. **Reference xyz** \
+Figure 9 suggests, when the video length is around 5 minutes (313 seconds) people tend to stay till the end of the video so, if possible keeping the length of the videos close to 5 minutes will be optimal because learners will be attentive through out the video and it is possible to cover good quality and quantity of content in this video length. Some researches and surveys also back this(best video length: 5-6 mins) finding (Section 8 reference number 2 for more details)  \
 However, it is also possible something very important is being covered in that specific video (**Exploring security: biometric authentication**) that has length 313 seconds and hence learners are watching that video till the end. This statement can also be supported by observing the video of length 426 seconds. Although there are relatively less people watching the video till the end, they are comparable with number of people watching video of length 313 and hence we can say people tend to stick to the video till the end when something important is being covered in the video. So, it is hard to comment on optimal length of the video but we can make an estimation of around 5 to 6 mins or 300 to 360 seconds.
 
 
@@ -223,7 +244,7 @@ However, it is also possible something very important is being covered in that s
 
 Data has been column normalized because total number of views were very high and can go up to very large number where as percentage of people who watched whole video or half video can only go up to 100 so, it is really hard to plot them on one plot, hence, total views and different watch percentages were normalized.
 
-```{r, echo=FALSE, out.width="100%", fig.cap="Optimal Video Length"}
+```{r, echo=FALSE, out.width="100%", fig.height=4, fig.width=9, fig.cap="Optimal Video Length"}
 # knitr::include_graphics("graphs/10.png")
 plot(views_comparison_plot)
 ```
@@ -248,8 +269,14 @@ All the analysis is carried out by taking assumptions into the consideration dis
 - To observe the sentiments of the learners we constructed the word cloud then eye balled which type of words are used most often and we stated positive sentiment. To support this finding we also calculated sentiment scores(for detail, refer section 6) and it also suggested positive sentiments.
 - To pin point the reason we analysed the leaving survey, here considerable number of fields were null so findings might be biased. Also, significant number of people gave reason as "Other" so, we don't know what that can be. 
 
-# 8 References
+# 8 Conclusion
+After various analysis that has been performed in this report we can say that course content is good and that is not the reason why learners are leaving the course but it is talking more time for them to complete the course. There are several ways this can be tackled such as, dividing the whole course into multiple courses or assessment questions can be reduced or made optional so that serious learners can take the assessments as they like and casual learners can go through the content, learn from the course without having to spend much time in assessments. \
+From the analysis for targeting right audience we can say that people from all age range, from IT and Education sector, and working full time are interested so, ads can be optimized by keeping these criteria into consideration.
 
-syuzhet package for NLP: https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html
-Video length research: https://www.techsmith.com/blog/video-length/
-Sentiment Extraction Methods: https://www.tidytextmining.com/sentiment.html
+# 9 References
+
+[1] syuzhet package for NLP: https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html \
+[2] Video length research: https://www.techsmith.com/blog/video-length/ \
+[3] Sentiment Extraction Methods: https://www.tidytextmining.com/sentiment.html \
+[4] Old people using smartphones: https://www.pewresearch.org/internet/2017/05/17/tech-adoption-climbs-among-older-adults/pi_2017-05-17_older-americans-tech_1-01/ \
+[5] Alpha 2 code to Coordinates: https://gist.github.com/tadast/8827699
