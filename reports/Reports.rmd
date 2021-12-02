@@ -146,6 +146,7 @@ From figure 4, we can observe following key information:
 - y-axis of all the plot is the count of individuals(learners).
 - x-axis is different categorical variables(features) of the learners such as gender, age range, employment status, employment area, and highest education level.
 - Merged data is taken into consideration.
+- Please zoom in on this plot to see the labels, when font size of the text was increased, the plot was completely distorted and hard to understand.
 
 ```{r, echo=FALSE, out.width="100%", fig.height=9, fig.width=16, fig.cap="Which type of people are enrolling for the course?"}
 # knitr::include_graphics("graphs/4.png")

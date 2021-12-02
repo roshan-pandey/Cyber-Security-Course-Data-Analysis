@@ -1,4 +1,11 @@
-
+########################################################################################################
+#                                   F I L E   D E S C R I P T I O N                                    #
+########################################################################################################
+#                                                                                                      #
+# This file contains the code related to EDA: general data analysis by plotting various graphs and     #
+# plots on different data to get most out the analysis. This file is using variables created in        #
+# ./munge/01-A.R file. So, to check the variable declaration please refer 01-A.R file.                 #
+########################################################################################################
 
 # Plot for Number of learners enrolled over different iteration...
 performance = ggplot()+
@@ -58,7 +65,7 @@ gg_emp_area = ggplot(data = emp_area, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Employment Area")+
   xlab("Employment Area")+
-  theme(axis.text.x = element_text(angle=15))
+  theme(axis.text.x = element_text(angle=15, hjust = 1))
 
 gg_age_range = ggplot(data = age_range, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
@@ -68,10 +75,11 @@ gg_age_range = ggplot(data = age_range, aes(x = Var1, y = Freq, fill = Var1))+
 
 lay = rbind(c(1,2),
             c(3,4),
+            c(5,5),
             c(5,5))
 arrange_plot = grid.arrange(gg_gender, gg_age_range, gg_emp_status, gg_edu_lvl, gg_emp_area, layout_matrix = lay)
 
-#######################################################################################################################################
+#########################################################################################################################################
 
 # Plot for Most widely used device to access the content...
 device_plot = ggplot(device_df, aes(x = row.names(device_df), y = Usage, fill = row.names(device_df)))+ 
@@ -85,10 +93,11 @@ device_plot = ggplot(device_df, aes(x = row.names(device_df), y = Usage, fill = 
 # Most widely used device to access the content in each iteration..?
 device_ittr_plot = ggplot()+
   geom_bar(long_mean_df, mapping = aes(x = Iteration, y = Watch_Time, fill = Device), stat = 'identity', position = position_dodge())+
-  geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = Mobile, group = 1), size = 1.5, color = "DarkBlue")+
-  geom_point(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = Mobile, group = 1), size = 4, color = "DarkBlue")+
+  geom_line(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = Mobile, group = 1, color = "Mobile Usage"), size = 1.5)+
+  geom_point(as.data.frame(mean_df), mapping = aes(x = as.factor(rownames(mean_df)), y = Mobile, group = 1, color = "Mobile Usage"), size = 4)+
   ylab("Usage")+
   xlab("Batch Iteration")+
+  scale_color_manual(" ", values = c("Mobile Usage" = "DarkBlue"))+
   scale_fill_brewer(palette = "Set3")
 
 #######################################################################################################################################
