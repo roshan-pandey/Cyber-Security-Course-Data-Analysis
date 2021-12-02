@@ -1,39 +1,22 @@
 # Cyber-Security-Data-Analysis
 
-Welcome to ProjectTemplate!
+## 1. Introduction
+Online learning platforms are getting popularity day by day and hence, generating tons of data and we all know data is the fuel for today's world. We can leverage this data to it's true potential to help the course or the platform to grow and gain more traction by improving the course even further. So, in this report we will try to answer questions like, which device learners use frequently to access the content, from which region more learners are taking up the course, over the various iterations of the course number of enrolled learners are increasing or decreasing.
 
-This file introduces you to ProjectTemplate, but you should eventually replace
-the contents of this file with an introduction to your project. People who
-work with your data in the future will thank you for it, including your future
-self.
+## 2. Objective
+There are mainly two objectives for this analysis:
 
-ProjectTemplate is an R package that helps you organize your statistical
-analysis projects. Since you're reading this file, we'll assume that you've
-already called `create.project()` to set up this project and all of its
-contents.
+2.1. Target Right Audience.
 
-To load your new project, you'll first need to `setwd()` into the directory
-where this README file is located. Then you need to run the following two
-lines of R code:
+> We want to know from which **location** mostly people are enrolling for the course, what are their employment background and status, their age range etc. This will allow the course provider to target right audience. First, we will try to analyze which continent has most enrolled learners, then we will pin point the country. This way it will be easy to target right locations with precision for advertisement. After this, analysis will be done on learners gender, age range, heights education quaification, employment area and status to understand better which type of people are showing keen interest in the course and hence, personalized ads can be pushed to the right audience.
 
-	library('ProjectTemplate')
-	load.project()
+2.2. Course Improvement.
 
-After you enter the second line of code, you'll see a series of automated
-messages as ProjectTemplate goes about doing its work. This work involves:
-* Reading in the global configuration file contained in `config`.
-* Loading any R packages you listed in the configuration file.
-* Reading in any datasets stored in `data` or `cache`.
-* Preprocessing your data using the files in the `munge` directory.
+> Once right audience has been singled out, course can be improved to make it more appealing to the potential learers. This can be done in various ways such as, analysing which type of devices (**Desktop, Mobile Phone, Tablet**) are being used most often than others, is there any trend in usability of a particular device over different runs of the course. Analysis can also be done on sentiments of the learners who have taken the course in the past and peaking into the reasons why they chose to leave the course.
 
-Once that's done, you can execute any code you'd like. For every analysis
-you create, we'd recommend putting a separate file in the `src` directory.
-If the files start with the two lines mentioned above:
-
-	library('ProjectTemplate')
-	load.project()
-
-You'll have access to all of your data, already fully preprocessed, and
-all of the libraries you want to use.
-
-For more details about ProjectTemplate, see http://projecttemplate.net
+## 3. Steps to execute this Project.
+1. Download/fork/clone the project by clicking [here](https://github.com/roshan-pandey/Cyber-Security-Course-Data-Analysis) and place all the data files in ./data/ directory or simply unzip the project folder provided(it already has all the data).
+2. Open RStudio
+3. Set working directory by using the command setwd("path/where/you/downloaded/the/project/file") or you can simply click on sessions tab present in the top menu bar then go to set working directory then choose directory (Session > Set Working Directory > Choose directory).
+4. Open ./reports/Reports.rmd and run all the chunks by clicking on Run > Run All button in Rstudio.
+5. To generate the pdf report click on knit or knit to pdf.
