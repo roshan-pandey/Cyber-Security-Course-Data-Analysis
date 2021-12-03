@@ -44,6 +44,7 @@ gg_gender = ggplot(data = gender, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Gender")+
   xlab("Gender")+
+  ylab("No. of learners")+
   scale_fill_brewer(palette = "Set3")
 
 
@@ -51,26 +52,34 @@ gg_edu_lvl = ggplot(data = edu_lvl, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Education Level")+
   xlab("Education Level")+
-  scale_fill_brewer(palette = "Set3")
+  ylab("No. of learners")+
+  scale_fill_brewer(palette = "Set3")+
+  theme(axis.text.x = element_text(angle=15, hjust = 1))
+
 
 
 gg_emp_status = ggplot(data = emp_status, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Employment Status")+
   xlab("Employment Status")+
-  scale_fill_brewer(palette = "Set3")
+  ylab("No. of learners")+
+  scale_fill_brewer(palette = "Set3")+
+  theme(axis.text.x = element_text(angle=15, hjust = 1))
+
 
 
 gg_emp_area = ggplot(data = emp_area, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Employment Area")+
   xlab("Employment Area")+
+  ylab("No. of learners")+
   theme(axis.text.x = element_text(angle=15, hjust = 1))
 
 gg_age_range = ggplot(data = age_range, aes(x = Var1, y = Freq, fill = Var1))+
   geom_bar(stat = "identity")+
   labs(fill = "Age Range")+
   xlab("Age Range")+
+  ylab("No. of learners")+
   scale_fill_brewer(palette = "Set3")
 
 lay = rbind(c(1,2),

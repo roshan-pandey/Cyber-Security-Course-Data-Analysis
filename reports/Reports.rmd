@@ -52,32 +52,32 @@ Data is consist of 7 different iterations(runs) of the course.
 - **Enrolment data** has numerous variables in this dataset but we are only considering following features of the learners: \
 *Gender* has sex of the learners, in this we have male, female, nonbinary and others. There are majority of the fields as unknown. \
 *Age Range* has several age intervals: less than 18, 19-25, 26-35, 36-45, 46-55, 56-65 and above 65, here also most fields are unknown. \
-*Heighest Education Level* tells about the highest education qualifican that learners have achieved before joining the course. we have unknows in this field too. \
+*Highest Education Level* tells about the highest education qualification that learners have achieved before joining the course. we have unknowns in this field too. \
 *Employment Area* has the record of from which background learners are coming from. For example, health care, IT, education etc. Unknowns can be seen here as well. \
 *Employment Status* depicts the current state of learners' working state. Majority of the fields are unknown.\
 *Detected Country* tells about the location from where learners are enrolling.
-- **Video Stats data** has details about the number of views each video has got, length of the video, devises used and many more, however, we have considered subset of features mentione below: \
+- **Video Stats data** has details about the number of views each video has got, length of the video, devises used and many more, however, we have considered subset of features mentioned below: \
 *Title* column has all the video titles. \
 *Video Duration* has total length of the video in seconds. \
 *Viewed x Percent*: There are multiple columns with percent of learners watched 10%, 25%, 50%, or 100% of a particular video length. \
-*x Device Percentage*: There are different columns that has data of percent of learners watched the concent on which device(mobile, desktop, console, tv, tablet). \
-*x View Percentage*: There are several columns with percent of learners watched the video from which country.
+*x Device Percentage*: There are different columns that has data of percent of learners watched the content on which device(mobile, desktop, console, tv, tablet). \
+*x View Percentage*: There are several columns with percent of learners watched the video from which continent.
 - **Weekly Sentiments data** has multiple fields but we are only interested in learners sentiment reasons for a particular week which is stored in *reasons* column.
-- **Leaving Survey data** has data related to when an individual left the course, last completed step and many more however, we are only considering the *leaving reason* column which will also us to get better undstanding of why people left the course.
+- **Leaving Survey data** has data related to when an individual left the course, last completed step and many more, however, we are only considering the *leaving reason* column which will also allow us to get better understanding of why people left the course.
 
 # 4. Data Processing
-We are considering data into two different formats, mentioned bellow:
+We are considering data into two different formats, mentioned below:
 
-4.1 **Merging data**: Combining data of same file genre from all the iterations. For example, enrollment data from each iteration is been combined row wise (rbind) on top of each other ad like wise for archetype, video stats, leaving survey, weekly sentiments, question response, etc. \
+4.1 **Merging data**: Combining data of same file genre from all the iterations. For example, enrollment data from each iteration is been combined row wise (rbind) on top of each other and like wise for archetype, video stats, leaving survey, weekly sentiments, question response, etc. \
 The idea behind combining the data from different iterations is to get a broader picture of how the course is performing, what type of people are joining the course, and how are they utilizing the course.
 
-4.2 **Separate data**: All different file genres from various iterations are kept separately to see how the data is changing between different runs of the course. This analysis will assist us to see whether there is a shift in trend as to how people are making use of the course. For example, are people preferring mobile devices more in recent batched or they still like to use desktop computers.
+4.2 **Separate data**: All different file genres from various iterations are kept separately to see how the data is changing between different runs of the course. This analysis will assist us to see whether there is a shift in trend as to how people are making use of the course. For example, are people preferring mobile devices more in recent batches or they still like to use desktop computers.
 
 4.3 **Enrollment data with geographical coordinates**: Enrollment data from section 4.1 was joined with data downloaded from github(Link in reference section) based on alpha 2 code of the countries.
 
 4.4 To analyse which device is being used the most, video stat data from section 4.1 was used and mean of different device columns was calculated.
 
-4.5 **Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned by removing the stop words, punctuation, converted every word to lower case, removal of special chars and worlds of length 3 or less, all these operations were done by helper function string_cleaner() present in ./lib/helpers.R file. After this cleaned text was split into words and then sentiment score was calculated for each words.
+4.5 **Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned by removing the stop words, punctuation, converted every word to lower case, removal of special characters and worlds of length 3 or less, all these operations were done by helper function string_cleaner() present in ./lib/helpers.R file. After this cleaned text was split into words and then sentiment score was calculated for each word.
 
 4.6 **IMPORTANT Assumptions:** 
 
@@ -175,7 +175,7 @@ Consoles and TVs are not taken into consideration as they were very less or zero
 plot(device_plot)
 ```
 
-Figure 6 shows, although mobile phones are being used significantly less as compared to desktops, there is a subtle increase in the popularity of the mobile phones as the course is being run over different iterations. So, platform and course content optimization for mobile phone should also be taken into consideration as it will enhance the user experience of the learners. Moreover, from section 5.1.2 we found out there are significant number of learners who are senior citizens and in several studies(reference xyz) it has been found more and more older people are starting to use smartphone as it is easy to carry. Hence, content viewing and readability on phone should also be given utmost importance.
+Figure 6 shows, although mobile phones are being used significantly less as compared to desktops, there is a subtle increase in the popularity of the mobile phones as the course is being run over different iterations. So, platform and course content optimization for mobile phone should also be taken into consideration as it will enhance the user experience of the learners. Moreover, from section 5.1.2 we found out there are significant number of learners who are senior citizens and in several studies(reference 4) it has been found more and more older people are starting to use smartphone as it is easy to carry. Hence, content viewing and readability on phone should also be given utmost importance.
 
 ##### About figure 6:
 
@@ -202,14 +202,13 @@ All the weekly sentiment reasons from different batches has been merged and text
 # knitr::include_graphics("graphs/7.png")
 plot(sentiments_word_cloud)
 ```
-Figure 8 represents the sentiment score of different sentiments like positive, negative, anticipation, joy, trust, etc. Syuzhet package was used for generating sentiment scores, which has sentiment dictionaries and offers a method for accessing the sentiment extraction tool developed in the NLP group at Stanford. Refer reference section for more details about the package and its usability. From figure 8 we can support our analysis in the previous step (Fig 7) and state that overall sentiment of learners was positive and need to spot the exact reason for leaving the course.
-
 ##### About figure 7:
 
 - x-axis: Sentiments
 - y-axis: Sentiments scores
 - All the weekly sentiment reasons from different batches has been merged and text processing mentioned in section 4 of the report was carried out for cleaner and better insights.
 
+Figure 8 represents the sentiment score of different sentiments like positive, negative, anticipation, joy, trust, etc. Syuzhet package was used for generating sentiment scores, which has sentiment dictionaries and offers a method for accessing the sentiment extraction tool developed in the NLP group at Stanford. Refer reference section for more details about the package and its usability. From figure 8 we can support our analysis in the previous step (Fig 7) and state that overall sentiment of learners was positive and need to spot the exact reason for leaving the course.
 
 ```{r, echo=FALSE, out.width="100%", fig.height= 4, fig.width=9, fig.cap="Overall sentiment scores of learners"}
 # knitr::include_graphics("graphs/8.png")
@@ -218,7 +217,7 @@ plot(sent_plot)
 
 ### 5.2.3 Reason(s) for leaving the course.
 
-From figure 9, we can clearly see people are leaving the course mainly because either they don't have sufficient time to complete the course or they expected the course to take less time to complete but that's not the case. So, if possible course can be either shortened or divided into multiple courses this way learners can choose which part of the course they want to take and they will be able to finish the course in less time which will lead them to buy the next part of the course.
+From figure 9, we can clearly see people are leaving the course mainly because either they don't have sufficient time to complete the course or they expected the course to take less time to complete but that's not the case. So, if possible, course can be either shortened or divided into multiple courses this way learners can choose which part of the course they want to take and they will be able to finish the course in less time which will lead them to buy the next part of the course.
 
 ##### About figure 9:
 
@@ -233,7 +232,7 @@ plot(leaving_reason_plot)
 
 ###  5.2.4 Optimal length of the videos.
 
-Figure 9 suggests, when the video length is around 5 minutes (313 seconds) people tend to stay till the end of the video so, if possible keeping the length of the videos close to 5 minutes will be optimal because learners will be attentive through out the video and it is possible to cover good quality and quantity of content in this video length. Some researches and surveys also back this(best video length: 5-6 mins) finding (Section 8 reference number 2 for more details)  \
+Figure 10 suggests, when the video length is around 5 minutes (313 seconds) people tend to stay till the end of the video so, if possible keeping the length of the videos close to 5 minutes will be optimal because learners will be attentive through out the video and it is possible, to cover good quality and quantity of content in this video length. Some researches and surveys also back this(best video length: 5-6 mins) finding (Section 8 reference number 2 for more details)  \
 However, it is also possible something very important is being covered in that specific video (**Exploring security: biometric authentication**) that has length 313 seconds and hence learners are watching that video till the end. This statement can also be supported by observing the video of length 426 seconds. Although there are relatively less people watching the video till the end, they are comparable with number of people watching video of length 313 and hence we can say people tend to stick to the video till the end when something important is being covered in the video. So, it is hard to comment on optimal length of the video but we can make an estimation of around 5 to 6 mins or 300 to 360 seconds.
 
 

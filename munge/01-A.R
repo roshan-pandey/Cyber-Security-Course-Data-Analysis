@@ -168,8 +168,8 @@ colnames(leaving_reason) = c('reason', 'freq')
 
 # Cleaning the special chars from leaving reasons...
 leaving_reason$reason = gsub("[^[:alnum:]]", " ",as.character(leaving_reason$reason))
-leaving_reason$reason = gsub("â", "",as.character(leaving_reason$reason))
-leaving_reason$reason = gsub("n t", "n't",as.character(leaving_reason$reason))
+# leaving_reason$reason = gsub("â", "",as.character(leaving_reason$reason))
+# leaving_reason$reason = gsub("n t", "n't",as.character(leaving_reason$reason))
 hsize = 1
 leaving_reason = leaving_reason %>% mutate(x = hsize)
 
