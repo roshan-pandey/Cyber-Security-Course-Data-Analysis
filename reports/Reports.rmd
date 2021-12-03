@@ -1,6 +1,6 @@
 ---
 title: "Cyber Security Data Analysis Report"
-author: "Roshan Pandey"
+author: "Roshan Pandey (210113925)"
 date: "11/11/2021"
 output: pdf_document
 ---
@@ -77,7 +77,7 @@ The idea behind combining the data from different iterations is to get a broader
 
 4.4 To analyse which device is being used the most, video stat data from section 4.1 was used and mean of different device columns was calculated.
 
-4.5 **Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned(removal of stop words, punctuation, every word to lower case, removal of special chars and worlds of length 3 or less). After this cleaned text was split into words and then sentiment score was calculated for each words.
+4.5 **Text processing:** For analyzing the overall sentiments of learners about the course, all the text from weekly sentiment survey from different iterations are combined into one string of text and then it was cleaned by removing the stop words, punctuation, converted every word to lower case, removal of special chars and worlds of length 3 or less, all these operations were done by helper function string_cleaner() present in ./lib/helpers.R file. After this cleaned text was split into words and then sentiment score was calculated for each words.
 
 4.6 **IMPORTANT Assumptions:** 
 
